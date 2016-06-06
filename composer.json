@@ -1,0 +1,32 @@
+{
+  "name": "beauty-x/payx-sdk",
+  "description": "PayX PHP Library",
+  "keywords": [
+    "payx",
+    "mobile payment processing",
+    "api"
+  ],
+  "homepage": "https://www.kongqueyun.com/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "PayX and contributors",
+      "homepage": "https://github.com/beauty-x/payx-sdk/tree/master/payx-sdk"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": { "PayX\\" : "lib/" }
+  },
+  "extra": {
+    "branch-alias": {
+    }
+  }
+}
