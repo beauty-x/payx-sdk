@@ -1,6 +1,6 @@
 {
   "name": "beauty-x/payx-sdk",
-  "description": "PayX PHP Library",
+  "description": "PayX Server SDK PHP Library",
   "keywords": [
     "payx",
     "mobile payment processing",
