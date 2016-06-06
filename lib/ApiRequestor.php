@@ -313,14 +313,14 @@ class ApiRequestor
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
-                $msg = "Could not connect to Ping++ ($apiBase).  Please check your " . "internet connection and try again.  If this problem persists, " . "you should check PayX's service status at " . "https://pay.kongqueyun.com/status.";
+                $msg = "Could not connect to PayX ($apiBase).  Please check your " . "internet connection and try again.  If this problem persists, " . "you should check PayX's service status at " . "https://pay.kongqueyun.com/status.";
                 break;
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
-                $msg = "Could not verify Ping++'s SSL certificate.  Please make sure " . "that your network is not intercepting certificates.  " . "(Try going to $apiBase in your browser.)";
+                $msg = "Could not verify PayX's SSL certificate.  Please make sure " . "that your network is not intercepting certificates.  " . "(Try going to $apiBase in your browser.)";
                 break;
             default:
-                $msg = "Unexpected error communicating with Ping++.";
+                $msg = "Unexpected error communicating with PayX.";
         }
 
         $msg .= "\n\n(Network error [errno $errno]: $message)";

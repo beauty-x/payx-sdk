@@ -1,5 +1,4 @@
 <?php
-
 namespace PayX\Util;
 
 use PayX\PayXObject;
@@ -7,6 +6,7 @@ use stdClass;
 
 abstract class Util
 {
+
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
      *
@@ -15,12 +15,12 @@ abstract class Util
      */
     public static function isList($array)
     {
-        if (!is_array($array))
+        if (! is_array($array))
             return false;
 
-        // TODO: generally incorrect, but it's correct given PayX's response
+            // TODO: generally incorrect, but it's correct given PayX's response
         foreach (array_keys($array) as $k) {
-            if (!is_numeric($k))
+            if (! is_numeric($k))
                 return false;
         }
         return true;
@@ -29,8 +29,10 @@ abstract class Util
     /**
      * Recursively converts the PHP PayX object to an array.
      *
-     * @param array $values The PHP PayX object to convert.
-     * @param bool
+     * @param array $values
+     *            The PHP PayX object to convert.
+     * @param
+     *            bool
      * @return array
      */
     public static function convertPayXObjectToArray($values, $keep_object = false)
@@ -43,11 +45,12 @@ abstract class Util
             }
             if ($v instanceof PayXObject) {
                 $results[$k] = $keep_object ? $v->__toStdObject(true) : $v->__toArray(true);
-            } else if (is_array($v)) {
-                $results[$k] = self::convertPayXObjectToArray($v, $keep_object);
-            } else {
-                $results[$k] = $v;
-            }
+            } else
+                if (is_array($v)) {
+                    $results[$k] = self::convertPayXObjectToArray($v, $keep_object);
+                } else {
+                    $results[$k] = $v;
+                }
         }
         return $results;
     }
@@ -55,12 +58,13 @@ abstract class Util
     /**
      * Recursively converts the PHP PayX object to an stdObject.
      *
-     * @param array $values The PHP PayX object to convert.
+     * @param array $values
+     *            The PHP PayX object to convert.
      * @return array
      */
     public static function convertPayXObjectToStdObject($values)
     {
-        $results = new stdClass;
+        $results = new stdClass();
         foreach ($values as $k => $v) {
             // FIXME: this is an encapsulation violation
             if ($k[0] == '_') {
@@ -68,11 +72,12 @@ abstract class Util
             }
             if ($v instanceof PayXObject) {
                 $results->$k = $v->__toStdObject(true);
-            } else if (is_array($v)) {
-                $results->$k = self::convertPayXObjectToArray($v, true);
-            } else {
-                $results->$k = $v;
-            }
+            } else
+                if (is_array($v)) {
+                    $results->$k = self::convertPayXObjectToArray($v, true);
+                } else {
+                    $results->$k = $v;
+                }
         }
         return $results;
     }
@@ -80,14 +85,15 @@ abstract class Util
     /**
      * Converts a response from the PayX API to the corresponding PHP object.
      *
-     * @param stdObject $resp The response from the PayX API.
+     * @param stdObject $resp
+     *            The response from the PayX API.
      * @param array $opts
      * @return PayXObject|array
      */
     public static function convertToPayXObject($resp, $opts)
     {
         $types = array(
-            'red_envelope'=>'PayX\\RedEnvelope',
+            'red_envelope' => 'PayX\\RedEnvelope',
             'charge' => 'PayX\\Charge',
             'list' => 'PayX\\Collection',
             'refund' => 'PayX\\Refund',
@@ -104,14 +110,12 @@ abstract class Util
             foreach ($resp as $i)
                 array_push($mapped, self::convertToPayXObject($i, $opts));
             return $mapped;
-        } else if (is_object($resp)) {
-            if (isset($resp->object)
-                && is_string($resp->object)
-                && isset($types[$resp->object])) {
-                    $class = $types[$resp->object];
-                } else {
-                    $class = 'PayX\\PayXObject';
-                }
+        } elseif (is_object($resp)) {
+            if (isset($resp->object) && is_string($resp->object) && isset($types[$resp->object])) {
+                $class = $types[$resp->object];
+            } else {
+                $class = 'PayX\\PayXObject';
+            }
             return $class::constructFrom($resp, $opts);
         } else {
             return $resp;
@@ -137,18 +141,19 @@ abstract class Util
     }
 
     /**
-     * @param string|mixed $value A string to UTF8-encode.
      *
-     * @returns string|mixed The UTF8-encoded string, or the object passed in if
-     *    it wasn't a string.
+     * @param string|mixed $value
+     *            A string to UTF8-encode.
+     *
+     * @return s string|mixed The UTF8-encoded string, or the object passed in if
+     *         it wasn't a string.
      */
     public static function utf8($value)
     {
-        if (is_string($value)
-            && mb_detect_encoding($value, "UTF-8", TRUE) != "UTF-8") {
-                return utf8_encode($value);
-            } else {
-                return $value;
-            }
+        if (is_string($value) && mb_detect_encoding($value, "UTF-8", TRUE) != "UTF-8") {
+            return utf8_encode($value);
+        } else {
+            return $value;
+        }
     }
 }
